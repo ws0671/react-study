@@ -4,6 +4,7 @@
   box-sizing: border-box;
   cursor: default;
 }
+
 .App {
   display: flex;
   justify-content: center;
@@ -15,7 +16,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 800px;
 }
 .title {
   font-size: 11rem;
@@ -38,6 +38,24 @@
   border: 3px solid;
   position: relative;
   padding: 1rem;
+}
+.box_score {
+  height: 40px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.box_score > div {
+  background-color: #2ecc71;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  opacity: 1;
+  transition: all 1s;
+}
+.box_score > div.hidden {
+  opacity: 0;
 }
 .box_title {
   text-transform: uppercase;
@@ -118,9 +136,31 @@
   font-size: 2rem;
   font-style: italic;
   color: #000;
-  margin-bottom: 2.5rem;
 }
 .btn:hover {
   color: #fff;
   background-color: #8e44ad;
+}
+
+@media (max-width: 767px) {
+  .container {
+    width: 90%;
+  }
+  .title {
+    font-size: 4rem;
+  }
+  .box {
+    width: 9rem;
+    height: 15rem;
+    border: 3px solid;
+    position: relative;
+    padding: 1rem;
+  }
+}
+
+/* 14인치 */
+@media (min-width: 767px) and (max-width: 1440px) {
+  html {
+    font-size: 0.9rem;
+  }
 }
