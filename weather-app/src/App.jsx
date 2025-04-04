@@ -4,33 +4,13 @@ import "./App.css";
 function App() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [weather, setWeather] = useState({});
   const [text, setText] = useState("");
-  const [celsius, setCelsius] = useState({});
   const [isFahrenheit, setIsFahrenheit] = useState(false);
-  const countries = {
-    seoul: {
-      lat: 37.5503,
-      lon: 126.9971,
-    },
-    tokyo: {
-      lat: 35.6764,
-      lon: 139.65,
-    },
-    washingtondc: { lat: 38.895, lon: 77.015 },
-    paris: {
-      lat: 48.8575,
-      lon: 2.3514,
-    },
-    berlin: {
-      lat: 52.4,
-      lon: 13.1,
-    },
-    rome: {
-      lat: 41.5335,
-      lon: 12.2858,
-    },
-  };
+
+  useEffect(() => {
+    text ? getCityData(text) : getLocation();
+  }, [text, isFahrenheit]);
+
   function getLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       const lat = position.coords.latitude;
@@ -75,10 +55,6 @@ function App() {
   const convertToC = () => {
     setIsFahrenheit(false);
   };
-
-  useEffect(() => {
-    text ? getCityData(text) : getLocation();
-  }, [text, isFahrenheit]);
 
   return (
     <>
