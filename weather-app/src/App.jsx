@@ -6,6 +6,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({});
   const [text, setText] = useState("");
+  const [celsius, setCelsius] = useState({});
+  const [isFahrenheit, setIsFahrenheit] = useState(false);
   const countries = {
     seoul: {
       lat: 37.5503,
@@ -38,11 +40,13 @@ function App() {
   }
   const getCityData = async (name) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?&appid=f743257dc4cdc95b3db03fdea2558e93&units=metric&q=${name}`;
+      const unit = isFahrenheit ? "imperial" : "metric";
+      const url = `https://api.openweathermap.org/data/2.5/weather?&appid=f743257dc4cdc95b3db03fdea2558e93&units=${unit}&q=${name}`;
       // const url = `https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ja&appid=f743257dc4cdc95b3db03fdea2558e93`;
       const res = await fetch(url);
       const data = await res.json();
       setData(data);
+
       console.log(data);
     } catch (error) {
       console.error("날씨 정보를 가져올 수 없습니다", error);
@@ -52,8 +56,8 @@ function App() {
   };
   const getWholeData = async (lat, lon) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f743257dc4cdc95b3db03fdea2558e93&units=metric`;
-      // const url = `https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ja&appid=f743257dc4cdc95b3db03fdea2558e93`;
+      const unit = isFahrenheit ? "imperial" : "metric";
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f743257dc4cdc95b3db03fdea2558e93&units=${unit}`;
       const res = await fetch(url);
       const data = await res.json();
       setData(data);
@@ -64,11 +68,17 @@ function App() {
       setLoading(false);
     }
   };
-  console.log(text);
+  const convertToF = () => {
+    setIsFahrenheit(true);
+  };
+
+  const convertToC = () => {
+    setIsFahrenheit(false);
+  };
 
   useEffect(() => {
     text ? getCityData(text) : getLocation();
-  }, [text]);
+  }, [text, isFahrenheit]);
 
   return (
     <>
@@ -81,17 +91,42 @@ function App() {
             className="w-full rounded-xl bg-amber-400  text-center p-5 "
           >
             <div></div>
-            <div className="text-7xl mb-3 ">{`${data?.main?.temp.toFixed()}℃`}</div>
+            <div className="flex gap-3 justify-center mb-3 ">
+              <div></div>
+              <div className="text-7xl">{`${data?.main?.temp.toFixed()}`}</div>
+              <div className="flex text-2xl justify-center items-center">
+                <div
+                  style={{ color: isFahrenheit ? "#99a1af" : "black" }}
+                  onClick={convertToC}
+                >
+                  ℃
+                </div>
+                <div className="border-black border-1 h-5 mx-5 flex items-center justify-center"></div>
+                <div
+                  style={{ color: isFahrenheit ? "black" : "#99a1af" }}
+                  onClick={convertToF}
+                >
+                  ℉
+                </div>
+              </div>
+            </div>
             <div className=" text-lg items-center justify-center grid grid-cols-3">
               <img
                 className="w-8 justify-self-end"
                 src={`https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`}
                 alt=""
               />
-              <div>
-                {(data?.main?.temp_max).toFixed()} /{" "}
-                {(data?.main?.temp_min).toFixed()}℃
-              </div>
+              {isFahrenheit ? (
+                <div>
+                  {(data?.main?.temp_max).toFixed()} /{" "}
+                  {(data?.main?.temp_min).toFixed()}℉
+                </div>
+              ) : (
+                <div>
+                  {(data?.main?.temp_max).toFixed()} /{" "}
+                  {(data?.main?.temp_min).toFixed()}℃
+                </div>
+              )}
             </div>
           </div>
           <div
