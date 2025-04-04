@@ -3,4 +3,6 @@
 @theme {
   --font-rowdies: "Rowdies", sans-serif;
   --font-bugee-tint: "Bungee Tint", sans-serif;
+  --font-jua: "Jua", sans-serif;
+  --font-custom: "Rowdies", "Jua";
 }

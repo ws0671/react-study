@@ -5,6 +5,7 @@ function App() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({});
+  const [text, setText] = useState("");
   const countries = {
     seoul: {
       lat: 37.5503,
@@ -35,9 +36,9 @@ function App() {
       getWholeData(lat, lon);
     });
   }
-  const getWholeData = async (lat, lon) => {
+  const getCityData = async (name) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=35&lon=153.1&appid=f743257dc4cdc95b3db03fdea2558e93&lang=kr`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?&appid=f743257dc4cdc95b3db03fdea2558e93&units=metric&q=${name}`;
       // const url = `https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ja&appid=f743257dc4cdc95b3db03fdea2558e93`;
       const res = await fetch(url);
       const data = await res.json();
@@ -49,60 +50,117 @@ function App() {
       setLoading(false);
     }
   };
+  const getWholeData = async (lat, lon) => {
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f743257dc4cdc95b3db03fdea2558e93&units=metric`;
+      // const url = `https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ja&appid=f743257dc4cdc95b3db03fdea2558e93`;
+      const res = await fetch(url);
+      const data = await res.json();
+      setData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("날씨 정보를 가져올 수 없습니다", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log(text);
 
   useEffect(() => {
-    getLocation();
-  }, []);
+    text ? getCityData(text) : getLocation();
+  }, [text]);
 
   return (
     <>
-      <div className="h-screen bg-linear-to-b from-cyan-500 to-blue-500 flex  flex-col justify-center items-center font-rowdies">
-        {loading ? (
-          <div className="text-2xl">로딩중...</div>
-        ) : data ? (
-          <>
-            <div className="flex gap-4">
-              <div
-                aria-label="card"
-                className=" w-40 h-40 rounded-xl bg-amber-400 text-6xl flex flex-col justify-center items-center "
-              >
-                <div className="">{`${(
-                  +data?.main?.temp - 273.15
-                ).toFixed()}℃`}</div>
-
-                {/* <div>
-                {`${((+data?.main?.temp * 9) / 5 - 459.67).toFixed()}℉`}
-              </div> */}
-                {/* 최저 : {data?.main?.temp_min}
-              최고 : {data?.main?.temp_max}
-              풍속 : {data?.wind?.speed}
-              날씨 : {data?.weather[0]?.main} */}
-              </div>
-              <div className="w-40 h-40 bg-amber-700 rounded-xl">
-                <div>{data?.weather[0]?.main}</div>
-                <div>{data?.weather[0]?.description}</div>
-                <div className="flex gap-4">
-                  <div>최고 : {data?.main?.temp_max}</div>
-                  <div>최저 : {data?.main?.temp_min}</div>
-                </div>
-              </div>
-            </div>
-            <div>
+      {loading ? (
+        <div className="text-2xl">로딩중...</div>
+      ) : data ? (
+        <div className="h-screen flex flex-col p-8 bg-linear-to-b from-cyan-500 to-blue-500 gap-5 justify-center items-center font-custom font-bold">
+          <div
+            aria-label="temp_card"
+            className="w-full rounded-xl bg-amber-400  text-center p-5 "
+          >
+            <div></div>
+            <div className="text-7xl mb-3 ">{`${data?.main?.temp.toFixed()}℃`}</div>
+            <div className=" text-lg items-center justify-center grid grid-cols-3">
               <img
-                src={`https://openweathermap.org/img/wn/${data?.weather[0]?.icon}@2x.png`}
+                className="w-8 justify-self-end"
+                src={`https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`}
                 alt=""
               />
+              <div>
+                {(data?.main?.temp_max).toFixed()} /{" "}
+                {(data?.main?.temp_min).toFixed()}℃
+              </div>
             </div>
-            <div className="bg-black text-white rounded-xl ">
-              <button className="border-r-1 p-3">서울</button>
-              <button className="p-3">도쿄</button>
-              <button className="border-x-1 p-3">워싱턴D.C</button>
-              <button className="p-3">파리</button>
-              <button className="border-l-1 p-3">로마</button>
+          </div>
+          <div
+            aria-label="weather_card"
+            className="w-full  p-3 flex flex-col justify-center items-center text-3xl gap-3  bg-amber-700 rounded-xl"
+          >
+            {/* <div>{data?.weather[0]?.main}</div> */}
+            <div>{data?.weather[0]?.description}</div>
+          </div>
+          <div className="w-full bg-white col-span-2 rounded-xl  flex gap-6 p-3 justify-center items-center">
+            <div className="flex items-center  justify-center gap-3">
+              <div className="w-5 ">
+                <img src="/images/wind.png" alt="" />
+              </div>
+              <div>{data.wind.speed}m/s</div>
             </div>
-          </>
-        ) : null}
-      </div>
+            <div className="flex items-center  justify-center gap-3">
+              <div className="w-5">
+                <img src="/images/weather.png" alt="" />
+              </div>
+              <div>{data.main.humidity}%</div>
+            </div>
+          </div>
+          <div className="w-full rounded-xl bg-black ">
+            <div
+              className=" text-white w-full border-b-1  p-3 flex justify-center items-center "
+              onClick={() => {
+                setText("");
+              }}
+            >
+              Current location
+            </div>
+            <div className="w-full text-white grid grid-cols-4">
+              <button
+                className="border-r-1  p-3"
+                onClick={() => {
+                  setText("seoul");
+                }}
+              >
+                Seoul
+              </button>
+              <button
+                className="p-3"
+                onClick={() => {
+                  setText("tokyo");
+                }}
+              >
+                Tokyo
+              </button>
+              <button
+                className="border-x-1  p-3"
+                onClick={() => {
+                  setText("paris");
+                }}
+              >
+                Paris
+              </button>
+              <button
+                className="p-3"
+                onClick={() => {
+                  setText("london");
+                }}
+              >
+                London
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }
