@@ -119,7 +119,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className=" text-lg sm:text-[16px] items-center justify-center grid grid-cols-3">
+              <div className=" text-lg sm:text-sm items-center justify-center grid grid-cols-3">
                 <img
                   className="w-8 justify-self-end"
                   src={`https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`}
