@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Loading from "./loading";
 
 function App() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [text, setText] = useState("");
+  const [cityName, setCityName] = useState("");
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [currentState, setCurrentState] = useState("current_location");
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
-    text ? getCityData(text) : getLocation();
-  }, [text, isFahrenheit]);
+    cityName ? getCityData(cityName) : getLocation();
+  }, [cityName, isFahrenheit]);
 
   function getLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -77,13 +78,12 @@ function App() {
         setCurrentState("current_location");
         break;
     }
-    console.log(currentState);
   };
   return (
     <>
       {loading ? (
         <div className="h-screen flex  p-8 bg-linear-to-b from-cyan-500 to-blue-500 justify-center items-center font-custom font-bold">
-          Now Loading...
+          <Loading />
         </div>
       ) : data ? (
         <div className="h-screen flex  p-8 bg-linear-to-b from-cyan-500 to-blue-500 justify-center items-center font-custom font-bold ">
@@ -175,7 +175,7 @@ function App() {
                       : "bg-black"
                   }  text-white w-full border-b-1  p-3 flex justify-center items-center cursor-pointer hover:bg-white hover:text-black rounded-t-xl transition-all`}
                   onClick={() => {
-                    setText("");
+                    setCityName("");
                     isCurrentState("");
                   }}
                 >
@@ -187,7 +187,7 @@ function App() {
                       currentState === "seoul" ? "bg-gray-500" : "bg-black"
                     } border-r-1  p-3 cursor-pointer hover:bg-white hover:text-black rounded-bl-xl transition-all`}
                     onClick={() => {
-                      setText("seoul");
+                      setCityName("seoul");
                       isCurrentState("seoul");
                     }}
                   >
@@ -198,7 +198,7 @@ function App() {
                       currentState === "tokyo" ? "bg-gray-500" : "bg-black"
                     }  p-3 cursor-pointer hover:bg-white hover:text-black transition-all `}
                     onClick={() => {
-                      setText("tokyo");
+                      setCityName("tokyo");
                       isCurrentState("tokyo");
                     }}
                   >
@@ -209,7 +209,7 @@ function App() {
                       currentState === "paris" ? "bg-gray-500" : "bg-black"
                     } border-x-1  p-3 cursor-pointer hover:bg-white hover:text-black transition-all`}
                     onClick={() => {
-                      setText("paris");
+                      setCityName("paris");
                       isCurrentState("paris");
                     }}
                   >
@@ -220,7 +220,7 @@ function App() {
                       currentState === "london" ? "bg-gray-500" : "bg-black"
                     }  p-3 cursor-pointer hover:bg-white hover:text-black rounded-br-xl transition-all`}
                     onClick={() => {
-                      setText("london");
+                      setCityName("london");
                       isCurrentState("london");
                     }}
                   >
