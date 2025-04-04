@@ -6,6 +6,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState("");
   const [isFahrenheit, setIsFahrenheit] = useState(false);
+  const [currentState, setCurrentState] = useState("current_location");
+  const API_KEY = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
     text ? getCityData(text) : getLocation();
@@ -21,8 +23,7 @@ function App() {
   const getCityData = async (name) => {
     try {
       const unit = isFahrenheit ? "imperial" : "metric";
-      const url = `https://api.openweathermap.org/data/2.5/weather?&appid=f743257dc4cdc95b3db03fdea2558e93&units=${unit}&q=${name}`;
-      // const url = `https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ja&appid=f743257dc4cdc95b3db03fdea2558e93`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?&appid=${API_KEY}&units=${unit}&q=${name}`;
       const res = await fetch(url);
       const data = await res.json();
       setData(data);
@@ -37,7 +38,7 @@ function App() {
   const getWholeData = async (lat, lon) => {
     try {
       const unit = isFahrenheit ? "imperial" : "metric";
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f743257dc4cdc95b3db03fdea2558e93&units=${unit}`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${unit}`;
       const res = await fetch(url);
       const data = await res.json();
       setData(data);
@@ -55,7 +56,29 @@ function App() {
   const convertToC = () => {
     setIsFahrenheit(false);
   };
-
+  const isCurrentState = (location) => {
+    switch (location) {
+      case "current_location":
+        setCurrentState("current_location");
+        break;
+      case "seoul":
+        setCurrentState("seoul");
+        break;
+      case "tokyo":
+        setCurrentState("tokyo");
+        break;
+      case "paris":
+        setCurrentState("paris");
+        break;
+      case "london":
+        setCurrentState("london");
+        break;
+      default:
+        setCurrentState("current_location");
+        break;
+    }
+    console.log(currentState);
+  };
   return (
     <>
       {loading ? (
@@ -74,23 +97,29 @@ function App() {
                 <div className="text-7xl">{`${data?.main?.temp.toFixed()}`}</div>
                 <div className="flex text-2xl justify-center items-center ">
                   <div
-                    className="cursor-pointer"
-                    style={{ color: isFahrenheit ? "#99a1af" : "black" }}
+                    className={`cursor-pointer ${
+                      isFahrenheit
+                        ? "text-[#99a1af] hover:text-[#fff] transition-all"
+                        : "text-black "
+                    }`}
                     onClick={convertToC}
                   >
                     ℃
                   </div>
                   <div className="border-black border-1 h-5 mx-5 flex items-center justify-center"></div>
                   <div
-                    className="cursor-pointer"
-                    style={{ color: isFahrenheit ? "black" : "#99a1af" }}
+                    className={`cursor-pointer ${
+                      isFahrenheit
+                        ? "text-black "
+                        : "text-[#99a1af] hover:text-[#fff] transition-all"
+                    }`}
                     onClick={convertToF}
                   >
                     ℉
                   </div>
                 </div>
               </div>
-              <div className=" text-lg sm:text-sm items-center justify-center grid grid-cols-3">
+              <div className=" text-lg sm:text-[16px] items-center justify-center grid grid-cols-3">
                 <img
                   className="w-8 justify-self-end"
                   src={`https://openweathermap.org/img/wn/${data?.weather[0]?.icon}.png`}
@@ -138,47 +167,61 @@ function App() {
               </div>
             </div>
             <div className=" sm:col-span-3">
-              <div
-                aria-label="location_card"
-                className="w-full rounded-xl bg-black"
-              >
+              <div aria-label="location_card" className="w-full rounded-xl  ">
                 <div
-                  className=" text-white w-full border-b-1  p-3 flex justify-center items-center cursor-pointer"
+                  className={`${
+                    currentState === "current_location"
+                      ? "bg-gray-500"
+                      : "bg-black"
+                  }  text-white w-full border-b-1  p-3 flex justify-center items-center cursor-pointer hover:bg-white hover:text-black rounded-t-xl transition-all`}
                   onClick={() => {
                     setText("");
+                    isCurrentState("");
                   }}
                 >
                   Current location
                 </div>
                 <div className="w-full text-white grid grid-cols-4 ">
                   <button
-                    className="border-r-1  p-3 cursor-pointer"
+                    className={`${
+                      currentState === "seoul" ? "bg-gray-500" : "bg-black"
+                    } border-r-1  p-3 cursor-pointer hover:bg-white hover:text-black rounded-bl-xl transition-all`}
                     onClick={() => {
                       setText("seoul");
+                      isCurrentState("seoul");
                     }}
                   >
                     Seoul
                   </button>
                   <button
-                    className="p-3 cursor-pointer"
+                    className={`${
+                      currentState === "tokyo" ? "bg-gray-500" : "bg-black"
+                    }  p-3 cursor-pointer hover:bg-white hover:text-black transition-all `}
                     onClick={() => {
                       setText("tokyo");
+                      isCurrentState("tokyo");
                     }}
                   >
                     Tokyo
                   </button>
                   <button
-                    className="border-x-1  p-3 cursor-pointer"
+                    className={`${
+                      currentState === "paris" ? "bg-gray-500" : "bg-black"
+                    } border-x-1  p-3 cursor-pointer hover:bg-white hover:text-black transition-all`}
                     onClick={() => {
                       setText("paris");
+                      isCurrentState("paris");
                     }}
                   >
                     Paris
                   </button>
                   <button
-                    className="p-3 cursor-pointer"
+                    className={`${
+                      currentState === "london" ? "bg-gray-500" : "bg-black"
+                    }  p-3 cursor-pointer hover:bg-white hover:text-black rounded-br-xl transition-all`}
                     onClick={() => {
                       setText("london");
+                      isCurrentState("london");
                     }}
                   >
                     London
