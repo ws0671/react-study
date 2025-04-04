@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --font-rowdies: "Rowdies", sans-serif;
+  --font-bugee-tint: "Bungee Tint", sans-serif;
+}
