@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Loading from "./loading";
+import Button from "./Button";
 
 function App() {
   const [data, setData] = useState({});
@@ -9,6 +10,7 @@ function App() {
   const [isFahrenheit, setIsFahrenheit] = useState(false);
   const [currentState, setCurrentState] = useState("current_location");
   const API_KEY = import.meta.env.VITE_API_KEY;
+  const cities = ["seoul", "tokyo", "paris", "london"];
 
   useEffect(() => {
     cityName ? getCityData(cityName) : getLocation();
@@ -57,28 +59,7 @@ function App() {
   const convertToC = () => {
     setIsFahrenheit(false);
   };
-  const isCurrentState = (location) => {
-    switch (location) {
-      case "current_location":
-        setCurrentState("current_location");
-        break;
-      case "seoul":
-        setCurrentState("seoul");
-        break;
-      case "tokyo":
-        setCurrentState("tokyo");
-        break;
-      case "paris":
-        setCurrentState("paris");
-        break;
-      case "london":
-        setCurrentState("london");
-        break;
-      default:
-        setCurrentState("current_location");
-        break;
-    }
-  };
+
   return (
     <>
       {loading ? (
@@ -166,69 +147,13 @@ function App() {
                 <div>{data.main.humidity}%</div>
               </div>
             </div>
-            <div className=" sm:col-span-3">
-              <div aria-label="location_card" className="w-full rounded-xl  ">
-                <div
-                  className={`${
-                    currentState === "current_location"
-                      ? "bg-gray-500"
-                      : "bg-black"
-                  }  text-white w-full border-b-1  p-3 flex justify-center items-center cursor-pointer hover:bg-white hover:text-black rounded-t-xl transition-all`}
-                  onClick={() => {
-                    setCityName("");
-                    isCurrentState("");
-                  }}
-                >
-                  Current location
-                </div>
-                <div className="w-full text-white grid grid-cols-4 ">
-                  <button
-                    className={`${
-                      currentState === "seoul" ? "bg-gray-500" : "bg-black"
-                    } border-r-1  p-3 cursor-pointer hover:bg-white hover:text-black rounded-bl-xl transition-all`}
-                    onClick={() => {
-                      setCityName("seoul");
-                      isCurrentState("seoul");
-                    }}
-                  >
-                    Seoul
-                  </button>
-                  <button
-                    className={`${
-                      currentState === "tokyo" ? "bg-gray-500" : "bg-black"
-                    }  p-3 cursor-pointer hover:bg-white hover:text-black transition-all `}
-                    onClick={() => {
-                      setCityName("tokyo");
-                      isCurrentState("tokyo");
-                    }}
-                  >
-                    Tokyo
-                  </button>
-                  <button
-                    className={`${
-                      currentState === "paris" ? "bg-gray-500" : "bg-black"
-                    } border-x-1  p-3 cursor-pointer hover:bg-white hover:text-black transition-all`}
-                    onClick={() => {
-                      setCityName("paris");
-                      isCurrentState("paris");
-                    }}
-                  >
-                    Paris
-                  </button>
-                  <button
-                    className={`${
-                      currentState === "london" ? "bg-gray-500" : "bg-black"
-                    }  p-3 cursor-pointer hover:bg-white hover:text-black rounded-br-xl transition-all`}
-                    onClick={() => {
-                      setCityName("london");
-                      isCurrentState("london");
-                    }}
-                  >
-                    London
-                  </button>
-                </div>
-              </div>
-            </div>
+
+            <Button
+              setCityName={setCityName}
+              setCurrentState={setCurrentState}
+              currentState={currentState}
+              cities={cities}
+            />
           </div>
         </div>
       ) : null}
