@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function ProductCard() {
   const [products, setProducts] = useState([]);
   const getProducts = async () => {
-    let url = "http://localhost:3000/products";
+    let url = "https://my-json-server.typicode.com/ws0671/react-study";
     let response = await fetch(url);
     let data = await response.json();
     console.log(data);
