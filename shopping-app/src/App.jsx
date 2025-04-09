@@ -15,6 +15,9 @@ function App() {
     {
       path: "/", // path 추가
       Component: Home,
+      loader: () => {
+        return { authenticate, setAuthenticate };
+      },
       children: [
         {
           index: true, // path 추가
@@ -33,7 +36,7 @@ function App() {
       path: "/login", // path 추가
       Component: Login,
       loader: () => {
-        return { setAuthenticate };
+        return { authenticate, setAuthenticate };
       },
     },
   ]);

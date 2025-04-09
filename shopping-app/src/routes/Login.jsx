@@ -1,12 +1,18 @@
+import { useEffect } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { setAuthenticate } = useLoaderData();
+  const { authenticate, setAuthenticate } = useLoaderData();
+  useEffect(() => {
+    if (authenticate) {
+      navigate("/");
+    }
+  }, [authenticate]);
+
   const loginUser = (e) => {
     e.preventDefault();
     setAuthenticate(true);
-    navigate("/");
   };
   return (
     <div className="h-screen">

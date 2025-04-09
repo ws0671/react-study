@@ -11,7 +11,6 @@ export default function ProductCard() {
     let url = "https://my-json-server.typicode.com/ws0671/react-study/products";
     let response = await fetch(url);
     let data = await response.json();
-    console.log(data);
     setProducts(data);
   };
   const showDetail = (product) => {
@@ -21,9 +20,6 @@ export default function ProductCard() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4  mt-20 sm:mt-20">
       {products.map((product) => {
-        console.log(typeof product.size);
-        console.log(product.size);
-
         return (
           <div
             aria-label="card"
@@ -40,7 +36,6 @@ export default function ProductCard() {
               <div>{product.price.toLocaleString()}원</div>
               <div>{product.choice ? "MD 추천" : ""}</div>
               <div className="flex space-x-1">
-                {" "}
                 {product.size.map((i, idx) => {
                   return (
                     <div
