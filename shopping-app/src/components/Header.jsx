@@ -6,7 +6,7 @@ export default function Header() {
   const NAV_MENU = ["women", "men", "baby", "kids"];
 
   return (
-    <div className="fixed top-0  left-0 flex w-full justify-between items-center p-4 bg-white ">
+    <div className="fixed top-0 z-[100]  left-0 flex w-full justify-between items-center p-4 px-30 bg-white ">
       <Link to="/" aria-label="logo">
         <img
           className="w-10 sm:w-15"

@@ -6,9 +6,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 export default function LowNavbar() {
   const [searchOn, setSearchOn] = useState(false);
+  const navigate = useNavigate();
+  const goLoginPage = () => {
+    navigate("/login");
+  };
 
   return (
     <div
@@ -33,12 +38,13 @@ export default function LowNavbar() {
         </div>
       </div>
       <div className=" flex justify-around w-full sm:justify-center sm:gap-30">
-        <div
+        <Link
+          to="/"
           className={`     
-           bg-white rounded-full shadow-xl w-15 h-15 grid place-content-center`}
+           bg-white rounded-full cursor-pointer shadow-xl w-15 h-15 grid place-content-center`}
         >
           <FontAwesomeIcon icon={faHouse} />
-        </div>
+        </Link>
         <div
           className={`${
             searchOn ? "bg-black text-white" : "bg-white"
@@ -49,7 +55,10 @@ export default function LowNavbar() {
         >
           <FontAwesomeIcon icon={searchOn ? faXmark : faMagnifyingGlass} />
         </div>
-        <div className="bg-white rounded-full shadow-2xl w-15 h-15 grid place-content-center">
+        <div
+          className="bg-white rounded-full cursor-pointer shadow-2xl w-15 h-15 grid place-content-center"
+          onClick={goLoginPage}
+        >
           <FontAwesomeIcon icon={faUser} />
         </div>
       </div>
