@@ -37,7 +37,10 @@ export default function LowNavbar() {
           logoutModal ? "flex" : "hidden"
         } absolute inset-0 z-[101] bg-black/50  justify-center items-center`}
       >
-        <form className=" bg-white  flex flex-col" onSubmit={logout}>
+        <form
+          className="w-[90%] sm:w-auto bg-white  flex flex-col"
+          onSubmit={logout}
+        >
           <div className="flex justify-between y-items-center text-xl border-b-1 border-gray-300 p-5">
             <div>로그아웃</div>
             <FontAwesomeIcon
@@ -49,16 +52,16 @@ export default function LowNavbar() {
 
           <div className="p-5">
             <div className="mb-5">로그아웃 하시겠습니까?</div>
-            <div className="flex justify-center gap-10">
+            <div className="flex justify-center gap-3 sm:gap-10 flex-col sm:flex-row">
               <button
                 type="submit"
-                className="bg-black hover:bg-gray-700 text-white rounded-4xl w-56 h-14 cursor-pointer"
+                className="w-full bg-black hover:bg-gray-700 text-white rounded-4xl sm:w-56 h-14 cursor-pointer"
               >
                 로그아웃
               </button>
               <button
                 onClick={cancel}
-                className=" rounded-4xl w-56 h-14 cursor-pointer border-1"
+                className=" rounded-4xl w-full h-14 cursor-pointer border-1  sm:w-56"
               >
                 취소
               </button>
