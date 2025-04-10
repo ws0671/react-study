@@ -18,23 +18,23 @@ export default function ProductCard() {
   };
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4  mt-20 sm:mt-20">
+    <div className="grid grid-cols-2 sm:grid-cols-4  ">
       {products.map((product) => {
         return (
           <div
             aria-label="card"
             key={product.id}
-            className="cursor-pointer hover:scale-105 transition mb-10"
+            className="cursor-pointer hover:scale-107 transition mb-10"
             onClick={() => showDetail(product)}
           >
             <div className="w-full">
               <img src={product.img} alt="" />
             </div>
-            <div className="flex flex-col space-y-1 my-2">
+            <div className="flex flex-col space-y-1 my-2 p-4 sm:p-0">
               <div className="">{product.title}</div>
               {/* <div>{product.new}</div> */}
               <div>{product.price.toLocaleString()}원</div>
-              <div>{product.choice ? "MD 추천" : ""}</div>
+              <div className="mb-3">{product.choice ? "MD 추천" : ""}</div>
               <div className="flex space-x-1">
                 {product.size.map((i, idx) => {
                   return (

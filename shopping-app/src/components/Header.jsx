@@ -6,7 +6,7 @@ export default function Header() {
   const NAV_MENU = ["women", "men", "baby", "kids"];
 
   return (
-    <div className="fixed top-0 z-[100]  left-0 flex w-full justify-between items-center p-4 sm:px-30 backdrop-blur bg-white/60 shadow transition-shadow">
+    <div className="sticky top-0 z-[100] w-full flex justify-between items-center p-4 sm:px-30 backdrop-blur bg-white/60 shadow transition-shadow">
       <Link to="/" aria-label="logo">
         <img
           className="w-10 sm:w-15"
@@ -19,7 +19,7 @@ export default function Header() {
           return <div key={i}>{i.toUpperCase()}</div>;
         })}
       </div>
-      <div className="flex space-x-4">
+      <div className="flex space-x-8">
         <FontAwesomeIcon
           icon={faHeart}
           className="cursor-pointer hover:text-orange-400 transition-all"
