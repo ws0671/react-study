@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
-    <div className="relative  overflow-hidden">
+    <div className="relative overflow-hidden">
       <Header
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
@@ -17,7 +17,7 @@ export default function Home() {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
       />
-      <div className="sm:mx-30">
+      <div className="sm:mx-30 ">
         <Outlet />
       </div>
       <LowNavbar />

@@ -48,9 +48,9 @@ export default function LowNavbar() {
       <div
         className={`${
           logoutModal ? "flex" : "hidden"
-        } absolute inset-0 z-[101] bg-black/50  justify-center items-center h-screen`}
+        } fixed inset-0 bg-black/50 z-[101]  flex justify-center items-center`}
       >
-        <form className="w-[90%] sm:w-auto bg-white flex flex-col ">
+        <form className="w-[90%] sm:w-auto bg-white flex flex-col">
           <div className="flex justify-between y-items-center text-xl border-b-1 border-gray-300 p-5">
             <div>로그아웃</div>
             <FontAwesomeIcon
