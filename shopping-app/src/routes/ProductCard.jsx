@@ -24,11 +24,15 @@ export default function ProductCard() {
           <div
             aria-label="card"
             key={product.id}
-            className="cursor-pointer hover:scale-107 transition mb-10"
+            className="cursor-pointer  transition mb-10"
             onClick={() => showDetail(product)}
           >
-            <div className="w-full">
-              <img src={product.img} alt="" />
+            <div className="w-full overflow-hidden">
+              <img
+                className="hover:scale-107 transition"
+                src={product.img}
+                alt=""
+              />
             </div>
             <div className="flex flex-col space-y-1 my-2 p-4 sm:p-0">
               <div className="">{product.title}</div>
