@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 export default function ProductCard() {
   const [products, setProducts] = useState([]);
+  const [query, setQuery] = useSearchParams();
   const navigate = useNavigate();
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [query]);
   const getProducts = async () => {
-    let url = "https://my-json-server.typicode.com/ws0671/react-study/products";
+    let searchQuery = query.get("q") || "";
+
+    let url = `https://my-json-server.typicode.com/ws0671/react-study/products?q=${searchQuery}`;
     let response = await fetch(url);
     let data = await response.json();
     setProducts(data);

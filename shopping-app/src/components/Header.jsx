@@ -1,9 +1,17 @@
-import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBurger,
+  faCartShopping,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router";
 
-export default function Header() {
+export default function Header({ mobileMenuOpen, setMobileMenuOpen }) {
   const NAV_MENU = ["women", "men", "baby", "kids"];
+  const handleMobileMenu = () => {
+    setMobileMenuOpen(true);
+    console.log(mobileMenuOpen);
+  };
 
   return (
     <div className="sticky top-0 z-[100] w-full flex justify-between items-center p-4 sm:px-30 backdrop-blur bg-white/60 shadow transition-shadow">
@@ -19,7 +27,10 @@ export default function Header() {
           return <div key={i}>{i.toUpperCase()}</div>;
         })}
       </div>
-      <div className="flex space-x-8">
+      <div className="text-2xl sm:hidden" onClick={handleMobileMenu}>
+        <FontAwesomeIcon icon={faBurger} />
+      </div>
+      <div className="hidden sm:flex sm:space-x-8">
         <FontAwesomeIcon
           icon={faHeart}
           className="cursor-pointer hover:text-orange-400 transition-all"
