@@ -38,7 +38,7 @@ export default function Login() {
               }}
             >
               <div className="">
-                <div className="text-sm mb-2 ">아이디</div>
+                <div className="text-sm mb-2">아이디</div>
                 <input
                   required
                   className="border-1 sm:w-120 h-10 w-full focus:outline-none"
