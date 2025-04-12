@@ -8,7 +8,7 @@ import counterStore from "./stores/counterStore";
 function App() {
   const { count, increase, decrease, increaseBy, decreaseBy } = counterStore();
   return (
-    <div className="p-4 h-screen flex justify-center flex-col items-center font-rowdies">
+    <div className="p-4 flex h-[100dvh] justify-center flex-col items-center font-rowdies">
       <Counter />
       <div className="flex justify-center">
         <svg
