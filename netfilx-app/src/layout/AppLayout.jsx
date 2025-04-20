@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router";
 
 const AppLayout = () => {
   return (
-    <div className="bg-black h-[100dvh] ">
+    <div className="bg-black  ">
       <div className="bg-black text-white flex p-5 justify-between items-center">
         <div className="flex gap-6 items-center">
           <Link to="/" className="w-24">
