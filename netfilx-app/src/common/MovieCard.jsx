@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+import { useMovieGenreQuery } from "../hooks/useMovieGenre";
 const MovieCard = ({ movie }) => {
   const { data: genreData } = useMovieGenreQuery();
   console.log("genreData", genreData);
@@ -18,7 +18,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="overflow-visible hover:translate-z-5 relative z-10 hover:z-50 hover:transform hover:scale-[1.3] bg-cover w-[220px] h-[330px] cursor-pointer transition-all  "
+      className="w-full overflow-visible hover:translate-z-5 relative z-10 hover:z-50 hover:transform hover:scale-[1.3] bg-cover  h-[330px] cursor-pointer transition-all  "
       style={{
         backgroundImage:
           "url(" +
