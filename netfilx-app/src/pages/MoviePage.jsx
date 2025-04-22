@@ -8,6 +8,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loading from "../common/Loading";
 
 const MoviePage = () => {
   const [query, setQuery] = useSearchParams();
@@ -26,54 +27,61 @@ const MoviePage = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col">
-      {/* <div className="w-[500px] h-full">하이</div> */}
-      <div className="text-gray-500 text-[32px] px-12 font-bold">
-        <span className="text-white">'{keyword}'</span> 검색 결과
-      </div>
-      <div className="flex-1 grid place-content-center h-full">
-        {data && data.results.length !== 0 ? (
-          data.results.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
-          ))
-        ) : (
-          <>
-            <div className="text-white text-2xl mt-10 ">
-              원하시는 검색결과가 없어요🥲{" "}
-            </div>
-          </>
-        )}
-      </div>
-      <div className="flex justify-center font-bold">
-        <ReactPaginate
-          previousLabel={
-            <div className="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all">
-              <FontAwesomeIcon className="" icon={faChevronLeft} />
-            </div>
-          }
-          nextLabel={
-            <div className="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all">
-              <FontAwesomeIcon className="" icon={faChevronRight} />
-            </div>
-          }
-          pageClassName=""
-          pageLinkClassName="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all "
-          previousClassName=""
-          previousLinkClassName="page-link"
-          nextClassName=""
-          nextLinkClassName="page-link"
-          breakLabel="..."
-          breakClassName="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all"
-          breakLinkClassName="page-link"
-          pageCount={data?.total_pages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName="flex gap-1 text-white h-10 my-6 "
-          activeClassName="bg-purple-700 rounded-full w-10 h-10"
-          forcePage={page - 1}
-        />
-      </div>
+    <div className="flex-1 flex flex-col ">
+      {isLoading ? (
+        <div className="flex-grow flex justify-center items-center">
+          <Loading />
+        </div>
+      ) : (
+        <>
+          <div className="text-gray-500 text-[32px] px-12 font-bold">
+            <span className="text-white">'{keyword}'</span> 검색 결과
+          </div>
+          <div className="flex-1 grid place-content-center h-full">
+            {data && data.results.length !== 0 ? (
+              data.results.map((movie) => (
+                <MovieCard movie={movie} key={movie.id} />
+              ))
+            ) : (
+              <>
+                <div className="text-white text-2xl  ">
+                  원하시는 검색결과가 없어요🥲{" "}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="flex justify-center font-bold">
+            <ReactPaginate
+              previousLabel={
+                <div className="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all">
+                  <FontAwesomeIcon className="" icon={faChevronLeft} />
+                </div>
+              }
+              nextLabel={
+                <div className="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all">
+                  <FontAwesomeIcon className="" icon={faChevronRight} />
+                </div>
+              }
+              pageClassName=""
+              pageLinkClassName="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all "
+              previousClassName=""
+              previousLinkClassName="page-link"
+              nextClassName=""
+              nextLinkClassName="page-link"
+              breakLabel="..."
+              breakClassName="hover:bg-purple-700 rounded-full w-10 h-10 grid place-content-center cursor-pointer transition-all"
+              breakLinkClassName="page-link"
+              pageCount={data?.total_pages}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName="flex gap-1 text-white h-10 my-6 "
+              activeClassName="bg-purple-700 rounded-full w-10 h-10"
+              forcePage={page - 1}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
