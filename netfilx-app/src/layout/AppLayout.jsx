@@ -1,9 +1,17 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Link, Outlet } from "react-router";
+import React, { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router";
 
 const AppLayout = () => {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+
+  const searchByKeyword = (event) => {
+    event.preventDefault();
+    navigate(`/movies?q=${keyword}`);
+    setKeyword("");
+  };
   return (
     <div className="bg-black  ">
       <div className="bg-black text-white flex p-5 justify-between items-center">
@@ -18,12 +26,17 @@ const AppLayout = () => {
           <Link to="/movies">Movies</Link>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </div>
-        <div className="gap-2 hidden sm:flex">
-          <input type="text" className="bg-white rounded-sm" />
+        <form className="gap-2 hidden sm:flex" onSubmit={searchByKeyword}>
+          <input
+            type="text"
+            className="bg-white text-black rounded-sm"
+            onChange={(event) => setKeyword(event.target.value)}
+            value={keyword}
+          />
           <button className="rounded-sm text-red-600 border-1 border-red-600 p-2">
             Search
           </button>
-        </div>
+        </form>
       </div>
       <Outlet />
     </div>

@@ -16,10 +16,7 @@ const TopRatedMovieSlide = () => {
   }
   return (
     <div>
-      <h3 className="text-white">Top Rated Movies</h3>
-      <div>
-        <MovieSlider title="Top Rated Movies" movies={data.results} />
-      </div>
+      <MovieSlider title="Top Rated Movies" movies={data.results} />
     </div>
   );
 };

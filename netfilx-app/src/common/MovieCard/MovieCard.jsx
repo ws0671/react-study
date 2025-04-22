@@ -9,9 +9,9 @@ const MovieCard = ({ movie }) => {
     if (!genreData) return [];
     const genreNameList = genreIdList.map((id) => {
       const genreObj = genreData.find((genre) => genre.id === id);
+
       return genreObj.name;
     });
-    console.log(genreNameList);
 
     return genreNameList;
   };
@@ -29,10 +29,10 @@ const MovieCard = ({ movie }) => {
     >
       <div className="hover:opacity-[1] w-full h-full opacity-0 text-white font-bold transition-all duration-1000 break-words bg-[rgba(43,41,41,0.9)] p-4 hover:p-4">
         <div>제목: {movie.title}</div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap">
           {showGenre(movie.genre_ids).map((genre, index) => {
             return (
-              <div className="bg-amber-700 rounded-4xl px-2 py-1 " key={index}>
+              <div className="bg-amber-700 px-1 rounded-xl" key={index}>
                 {genre}
               </div>
             );
