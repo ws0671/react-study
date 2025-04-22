@@ -20,24 +20,29 @@ const MoviePage = () => {
     keyword,
     page,
   });
-  console.log(data);
+  console.log("searchData", data);
   const handlePageClick = ({ selected }) => {
     setPage(selected + 1);
   };
 
   return (
-    <div>
-      <div className="flex">
-        <div className="w-[500px] h-full">하이</div>
-        <div className="grid grid-cols-3">
-          {data && data.results.length !== 0 ? (
-            data.results.map((movie) => (
-              <MovieCard movie={movie} key={movie.id} />
-            ))
-          ) : (
-            <div className="text-red">검색결과가없습니다.</div>
-          )}
-        </div>
+    <div className="flex-1 flex flex-col">
+      {/* <div className="w-[500px] h-full">하이</div> */}
+      <div className="text-gray-500 text-[32px] px-12 font-bold">
+        <span className="text-white">'{keyword}'</span> 검색 결과
+      </div>
+      <div className="flex-1 grid place-content-center h-full">
+        {data && data.results.length !== 0 ? (
+          data.results.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))
+        ) : (
+          <>
+            <div className="text-white text-2xl mt-10 ">
+              원하시는 검색결과가 없어요🥲{" "}
+            </div>
+          </>
+        )}
       </div>
       <div className="flex justify-center font-bold">
         <ReactPaginate

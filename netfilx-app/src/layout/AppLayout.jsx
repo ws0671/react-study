@@ -6,7 +6,7 @@ import Navbar from "../pages/Homepage/components/Navber.jsx";
 
 const AppLayout = () => {
   return (
-    <div className="bg-black  ">
+    <div className="bg-black min-h-screen flex flex-col justify-between">
       <Navbar />
       <Outlet />
     </div>
