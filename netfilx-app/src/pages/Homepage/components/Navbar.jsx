@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-const Navber = () => {
+const Navbar = () => {
   const [keyword, setKeyword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
@@ -79,4 +79,4 @@ const Navber = () => {
   );
 };
 
-export default Navber;
+export default Navbar;

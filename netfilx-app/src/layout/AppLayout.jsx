@@ -2,7 +2,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
-import Navbar from "../pages/Homepage/components/Navber.jsx";
+import Navbar from "../pages/Homepage/components/Navbar";
 
 const AppLayout = () => {
   return (

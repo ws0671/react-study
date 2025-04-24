@@ -1,8 +1,10 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useMovieGenreQuery } from "../hooks/useMovieGenre";
+import { useNavigate, useSearchParams } from "react-router";
 const MovieCard = ({ movie }) => {
   const { data: genreData } = useMovieGenreQuery();
+  const navigate = useNavigate();
 
   const showGenre = (genreIdList) => {
     if (!genreData) return [];
@@ -14,9 +16,15 @@ const MovieCard = ({ movie }) => {
 
     return genreNameList;
   };
+  const goToDetailPage = (id) => {
+    console.log("clicked");
+
+    navigate(`/?modal=${id}`);
+  };
 
   return (
     <div
+      onClick={() => goToDetailPage(movie.id)}
       className="w-full overflow-visible hover:translate-z-5 relative z-10 hover:z-50 hover:transform hover:scale-[1.2] bg-cover  h-[330px] cursor-pointer transition-all rounded-lg "
       style={{
         backgroundImage:
@@ -26,8 +34,8 @@ const MovieCard = ({ movie }) => {
           ")",
       }}
     >
-      <div className="flex flex-col justify-between hover:opacity-[1] w-full h-full opacity-0 text-white font-bold transition-all duration-1000 break-words bg-[rgba(43,41,41,0.9)] p-4 hover:p-4 rounded-lg">
-        <div className="text-2xl">{movie.title}</div>
+      <div className="flex flex-col  gap-2 hover:opacity-[1] w-full h-full opacity-0 text-white font-bold transition-all duration-1000 break-words bg-[rgba(43,41,41,0.9)] p-4 hover:p-4 rounded-lg">
+        <div className="text-xl">{movie.title}</div>
         <div className="flex gap-2">
           <div>⭐{movie.vote_average.toFixed(1)}</div>
           <div>❤️{movie.popularity.toFixed()}</div>

@@ -2,6 +2,7 @@ import React from "react";
 import { responsive } from "../common/constants/responsive.js";
 import Carousel from "react-multi-carousel";
 import MovieCard from "./MovieCard.jsx";
+import { useNavigate } from "react-router";
 const MovieSlider = ({ title, movies }) => {
   return (
     <div>
