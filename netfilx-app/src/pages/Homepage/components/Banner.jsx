@@ -24,7 +24,7 @@ const Banner = () => {
     <div
       className="before:content-[''] before:bg-linear-to-b before:from-transparent before:to-black
      before:absolute before:left-0 before:h-[80dvh] before:w-full
-     bg-no-repeat w-full bg-cover h-[80dvh] "
+     bg-no-repeat w-full bg-cover h-[80dvh] mb-14"
       style={{
         backgroundImage:
           "url(" +

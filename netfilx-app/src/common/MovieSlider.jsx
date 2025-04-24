@@ -5,7 +5,7 @@ import MovieCard from "./MovieCard.jsx";
 const MovieSlider = ({ title, movies }) => {
   return (
     <div>
-      <h3 className="text-white">{title}</h3>
+      <h3 className="text-white ml-10 uppercase font-bold text-xl">{title}</h3>
       <Carousel
         infinite={true}
         centerMode={true}
