@@ -16,6 +16,8 @@ const Homepage = () => {
 
   useEffect(() => {
     const modalParam = searchParams.get("modal");
+    console.log(modalParam);
+
     setModalId(modalParam);
   }, [searchParams]);
 

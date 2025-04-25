@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useMatch, useSearchParams } from "react-router";
 import ReactPaginate from "react-paginate";
 import { useSearchMovieQuery } from "../hooks/useSearchMovie";
 import MovieCard from "../common/MovieCard";
@@ -12,11 +12,15 @@ import Loading from "../common/Loading";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useMovieGenreQuery } from "../hooks/useMovieGenre";
+import MovieDetailPage from "./MovieDetailPage";
 const MoviePage = () => {
-  const [query, setQuery] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [page, setPage] = useState(1);
-  const keyword = query.get("q");
+  const [keyword, setKeyword] = useState("");
   const [movieList, setMovieList] = useState([]);
+  const [modalId, setModalId] = useState(false);
+
   const { data: genreData } = useMovieGenreQuery();
   const { data, isLoading, isError, error } = useSearchMovieQuery({
     keyword,
@@ -26,14 +30,27 @@ const MoviePage = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [query]);
+    const key = searchParams.get("q");
+    setKeyword(key);
+  }, [searchParams]);
   useEffect(() => {
     if (data) {
       setMovieList(data.results);
     }
   }, [data]);
+  useEffect(() => {
+    const modalParam = searchParams.get("modal");
+    console.log(modalParam);
 
+    setModalId(modalParam);
+  }, [searchParams]);
   console.log("searchData", data);
+
+  const handleModalClose = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("modal");
+    setSearchParams(params);
+  };
   const handlePageClick = ({ selected }) => {
     setPage(selected + 1);
   };
@@ -66,15 +83,85 @@ const MoviePage = () => {
         </div>
       ) : (
         <>
-          <div className="text-gray-500 text-[32px] px-12 font-bold flex justify-between">
-            <div>
+          {modalId && (
+            <MovieDetailPage modalId={modalId} onClose={handleModalClose} />
+          )}
+          <div className="flex gap-6 items-center justify-center sm:hidden mb-5">
+            <Menu as="div" className="relative inline-block text-left z-[999]">
+              <div className="flex gap-8">
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
+                  정렬 기준
+                  <ChevronDownIcon
+                    aria-hidden="true"
+                    className="-mr-1 size-5 text-gray-400"
+                  />
+                </MenuButton>
+              </div>
+
+              <MenuItems
+                transition
+                className=" absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+              >
+                <div className="py-1">
+                  <MenuItem onClick={handlePopularity}>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                    >
+                      인기 많은순
+                    </a>
+                  </MenuItem>
+                  <MenuItem onClick={handleLowPopularity}>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                    >
+                      인기 적은순
+                    </a>
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </Menu>
+            <Menu as="div" className="relative inline-block text-left z-[999]">
+              <div className="flex gap-8 ">
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
+                  장르별 필터
+                  <ChevronDownIcon
+                    aria-hidden="true"
+                    className="-mr-1 size-5 text-gray-400"
+                  />
+                </MenuButton>
+              </div>
+
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+              >
+                <div className="py-1 overflow-y-auto h-[400px]">
+                  {genreData &&
+                    genreData.map((genre) => (
+                      <MenuItem onClick={() => handleGenreSort(genre.id)}>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                        >
+                          {genre.name}
+                        </a>
+                      </MenuItem>
+                    ))}
+                </div>
+              </MenuItems>
+            </Menu>
+          </div>
+          <div className="text-gray-500 text-[32px] px-12 font-bold flex justify-between max-sm:justify-center">
+            <div className="max-sm:text-lg">
               <span className="text-white">'{keyword}'</span> 검색 결과
             </div>
 
-            <div className="flex gap-6 items-center justify-center">
+            <div className="flex gap-6 items-center justify-center max-sm:hidden">
               <Menu
                 as="div"
-                className="relative inline-block text-left z-[2000]"
+                className="relative inline-block text-left z-[999]"
               >
                 <div className="flex gap-8">
                   <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
@@ -112,7 +199,7 @@ const MoviePage = () => {
               </Menu>
               <Menu
                 as="div"
-                className="relative inline-block text-left z-[2000]"
+                className="relative inline-block text-left z-[999]"
               >
                 <div className="flex gap-8 ">
                   <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
@@ -145,7 +232,7 @@ const MoviePage = () => {
               </Menu>
             </div>
           </div>
-          <div className="flex-1 grid grid-cols-6 place-content-center h-full p-14">
+          <div className="flex-1 grid grid-cols-6 place-content-center h-full p-14 max-sm:pt-8 max-sm:grid-cols-1">
             {movieList && movieList.length !== 0 ? (
               movieList.map((movie) => (
                 <MovieCard movie={movie} key={movie.id} />

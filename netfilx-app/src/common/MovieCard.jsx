@@ -1,11 +1,11 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useMovieGenreQuery } from "../hooks/useMovieGenre";
-import { useNavigate, useSearchParams } from "react-router";
+import { useMatch, useNavigate, useSearchParams } from "react-router";
 const MovieCard = ({ movie }) => {
   const { data: genreData } = useMovieGenreQuery();
   const navigate = useNavigate();
-
+  const isMoviePage = useMatch("/movies");
   const showGenre = (genreIdList) => {
     if (!genreData) return [];
     const genreNameList = genreIdList.map((id) => {
@@ -17,7 +17,11 @@ const MovieCard = ({ movie }) => {
     return genreNameList;
   };
   const goToDetailPage = (id) => {
-    navigate(`/?modal=${id}`);
+    if (isMoviePage) {
+      navigate(`/movies/?modal=${id}`);
+    } else {
+      navigate(`/?modal=${id}`);
+    }
   };
 
   return (

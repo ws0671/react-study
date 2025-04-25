@@ -36,9 +36,6 @@ const Navbar = () => {
           <Link className="uppercase text-sm" to="/movies">
             Movies
           </Link>
-          <div className="hidden">
-            <FontAwesomeIcon className="" icon={faMagnifyingGlass} />
-          </div>
         </div>
         <div className="flex justify-center items-center">
           <Link to="/" className="inline-block">
@@ -49,7 +46,7 @@ const Navbar = () => {
           <form
             ref={formRef}
             onClick={() => setIsVisible(true)}
-            className="gap-2 hidden sm:flex items-center justify-center"
+            className="gap-2 sm:flex items-center justify-center max-sm:text-xs"
             onSubmit={searchByKeyword}
           >
             {isVisible ? (
@@ -66,7 +63,7 @@ const Navbar = () => {
                 </button>
                 <input
                   type="text"
-                  className="border-1 border-white px-10 w-80 h-10 text-sm  text-white rounded-sm"
+                  className="border-1 border-white px-10 w-80 max-sm:w-30 h-10 text-sm  text-white rounded-sm"
                   onChange={(event) => setKeyword(event.target.value)}
                   value={keyword}
                 />

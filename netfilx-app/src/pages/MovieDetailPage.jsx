@@ -27,8 +27,16 @@ const MovieDetailPage = ({ modalId, onClose }) => {
     event.target.pauseVideo();
   };
   const opts = {
-    height: "500",
+    height: "400",
     width: "900",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+  const optsMini = {
+    height: "100",
+    width: "200",
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
@@ -40,7 +48,7 @@ const MovieDetailPage = ({ modalId, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black/70 z-[1000]">
       <div className="fixed inset-0   flex justify-center items-start overflow-auto ">
-        <div className="relative w-[1000px] z-[1001]  mt-10 rounded-lg   h-[105vh] ">
+        <div className="relative w-[1000px] z-[1001]  mt-10 rounded-lg   h-[105vh] max-sm:w-[300px] ">
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
               <Loading />
@@ -50,7 +58,7 @@ const MovieDetailPage = ({ modalId, onClose }) => {
               <div
                 className="before:content-[''] before:bg-linear-to-b before:from-transparent before:to-black/70
          before:absolute before:left-0 before:h-[80dvh]
-         bg-no-repeat w-full bg-cover h-[80dvh] rounded-t-lg   before:w-full "
+         bg-no-repeat w-full bg-cover h-[80dvh] rounded-t-lg   before:w-full max-sm:h-[40dvh] max-sm:bg-contain max-sm:before:h-[40dvh]"
                 style={{
                   backgroundImage:
                     "url(" +
@@ -68,7 +76,7 @@ const MovieDetailPage = ({ modalId, onClose }) => {
                       <FontAwesomeIcon className="" icon={faXmark} />
                     </div>
                   </div>
-                  <h1 className="text-xl font-bold sm:text-6xl mt-50 mb-20">
+                  <h1 className="text-xl font-bold sm:text-6xl mt-50 mb-20 max-sm:mt-10 max-sm:mb-10">
                     {data?.title}
                   </h1>
                   <button
@@ -79,7 +87,7 @@ const MovieDetailPage = ({ modalId, onClose }) => {
                     예고편
                   </button>
                   {isOpen ? (
-                    <div className="flex justify-center items-center flex-col bg-black p-6 rounded-xl">
+                    <div className="flex justify-center items-center flex-col bg-black p-6 rounded-xl ">
                       <div
                         className="self-end cursor-pointer"
                         onClick={handleOpen}
@@ -87,11 +95,20 @@ const MovieDetailPage = ({ modalId, onClose }) => {
                         {" "}
                         <FontAwesomeIcon className="text-2xl" icon={faXmark} />
                       </div>
-                      <YouTube
-                        videoId={key}
-                        opts={opts}
-                        onReady={onPlayerReady}
-                      />
+                      <div className="max-sm:hidden">
+                        <YouTube
+                          videoId={key}
+                          opts={opts}
+                          onReady={onPlayerReady}
+                        />
+                      </div>
+                      <div className="sm:hidden">
+                        <YouTube
+                          videoId={key}
+                          opts={optsMini}
+                          onReady={onPlayerReady}
+                        />
+                      </div>
                     </div>
                   ) : (
                     ""
@@ -106,6 +123,18 @@ const MovieDetailPage = ({ modalId, onClose }) => {
                       <div>❤️{data?.popularity.toFixed()}</div>
                       <div className="">⭕{data?.adult ? "18+" : "All"}</div>
                     </div>
+                    <div className="sm:hidden my-2">
+                      {data?.genres?.map((genre, index, array) => {
+                        return (
+                          <span className="font-bold" key={index}>
+                            {genre.name}
+                            {index < array.length - 1 && (
+                              <span className="mx-2 text-gray-500">•</span>
+                            )}
+                          </span>
+                        );
+                      })}
+                    </div>
                     <div className="space-y-2">
                       <div>Budget : {data?.budget}</div>
                       <div>Revenue : {data?.revenue}</div>
@@ -113,7 +142,7 @@ const MovieDetailPage = ({ modalId, onClose }) => {
                       <div>Runtime : {data?.runtime}</div>
                     </div>
                   </div>{" "}
-                  <div>
+                  <div className="max-sm: hidden">
                     {data?.genres?.map((genre, index, array) => {
                       return (
                         <span className="font-bold" key={index}>
