@@ -4,6 +4,8 @@ import { useMovieGenreQuery } from "../hooks/useMovieGenre";
 import { useMatch, useNavigate, useSearchParams } from "react-router";
 const MovieCard = ({ movie }) => {
   const { data: genreData } = useMovieGenreQuery();
+  const [query, setQuery] = useSearchParams();
+
   const navigate = useNavigate();
   const isMoviePage = useMatch("/movies");
   const showGenre = (genreIdList) => {
@@ -18,7 +20,7 @@ const MovieCard = ({ movie }) => {
   };
   const goToDetailPage = (id) => {
     if (isMoviePage) {
-      navigate(`/movies/?modal=${id}`);
+      navigate(`/movies/?${query}&modal=${id}`);
     } else {
       navigate(`/?modal=${id}`);
     }
