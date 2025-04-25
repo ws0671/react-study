@@ -14,9 +14,8 @@ const MovieSlider = ({ title, movies }) => {
         containerClass="carousel-container h-[440px]"
         responsive={responsive}
       >
-        {movies.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} />
-        ))}
+        {movies?.length > 0 &&
+          movies.map((movie) => <MovieCard movie={movie} key={movie.id} />)}
       </Carousel>
     </div>
   );

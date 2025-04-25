@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PopularMovieSlide from "./components/PopularMovieSlide";
 import TopRatedMovieSlide from "./components/TopRatedMovieSlide";
 import UpcomingMovieSlide from "./components/UpcomingMovieSlide";
@@ -11,15 +11,36 @@ import MovieDetailPage from "../MovieDetailPage";
 // 3. top rated movie
 // 4. upcoming movie
 const Homepage = () => {
-  const [searchParams, setSearchParmas] = useSearchParams();
-  const modalId = searchParams.get("modal");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [modalId, setModalId] = useState(false);
+
+  useEffect(() => {
+    const modalParam = searchParams.get("modal");
+    setModalId(modalParam);
+  }, [searchParams]);
+
+  const handleModalClose = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("modal");
+    setSearchParams(params);
+  };
+
+  useEffect(() => {
+    if (modalId) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [modalId]);
   return (
     <div>
       <Banner />
       <PopularMovieSlide />
       <TopRatedMovieSlide />
       <UpcomingMovieSlide />
-      {modalId && <MovieDetailPage />}
+      {modalId && (
+        <MovieDetailPage modalId={modalId} onClose={handleModalClose} />
+      )}
     </div>
   );
 };

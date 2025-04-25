@@ -4,7 +4,6 @@ import { usePopularMoviesQuery } from "../../../hooks/usePopularMovies";
 const Banner = () => {
   const { data, isLoading, isError, error } = usePopularMoviesQuery();
   const [randomNumber, setRandomNumber] = useState(null);
-  console.log("data", data);
 
   useEffect(() => {
     if (data?.results?.length > 0) {

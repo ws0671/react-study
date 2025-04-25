@@ -17,8 +17,6 @@ const MovieCard = ({ movie }) => {
     return genreNameList;
   };
   const goToDetailPage = (id) => {
-    console.log("clicked");
-
     navigate(`/?modal=${id}`);
   };
 
